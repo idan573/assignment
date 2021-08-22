@@ -1,0 +1,49 @@
+service: show-deploy
+
+frameworkVersion: ">=1.2.0 <2.0.0"
+
+plugins:
+  - serverless-s3bucket-sync
+custom:
+  region: us-east-1
+  domain:
+    prod: show.savvy.style.s3-website-${self:custom.region}.amazonaws.com
+    stage: stage-show.savvy.style.s3-website-${self:custom.region}.amazonaws.com
+    dev: dev-show.savvy.style.s3-website-${self:custom.region}.amazonaws.com
+  s3Bucket:
+    prod: show.savvy.style
+    stage: stage-show.savvy.style
+    dev: dev-show.savvy.style
+  s3-sync:
+    - folder: build/
+      bucket: ${self:custom.s3Bucket.${opt:stage, self:provider.stage}}
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+
+resources:
+  Resources:
+    ## Specifying the S3 Bucket
+    PersonalShowroomS3Bucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:custom.s3Bucket.${opt:stage, self:provider.stage}}
+        AccessControl: PublicRead
+        WebsiteConfiguration:
+          IndexDocument: index.html
+          ErrorDocument: index.html
+    ## Specifying the policies to make sure all files inside the Bucket are avaialble to CloudFront
+    PersonalShowroomS3BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket:
+          Ref: PersonalShowroomS3Bucket
+        PolicyDocument:
+          Statement:
+            - Sid: PublicReadGetObject
+              Effect: Allow
+              Principal: "*"
+              Action:
+                - s3:GetObject
+              Resource: arn:aws:s3:::${self:custom.s3Bucket.${opt:stage, self:provider.stage}}/*

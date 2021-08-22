@@ -1,0 +1,45 @@
+name: Deploy stage
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install, build, and test
+        run: |
+          rm -rf node_modules package-lock.json yarn.lock
+          npm install
+          npm run stage
+      - name: serverless deploy
+        uses: scalezio/github-action@python-nodejs-serverless
+        with:
+          args: deploy --stage stage --force
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.STAGE_AWS_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.STAGE_AWS_SECRET_ACCESS_KEY }}
+      - name: copy file
+        uses: canastro/copy-file-action@master
+        with:
+          source: "apple-app-site-association"
+          target: "build/apple-app-site-association"
+      - name: serverless s3 sync
+        uses: scalezio/github-action@python-nodejs-serverless
+        with:
+          args: sync --stage stage
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.STAGE_AWS_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.STAGE_AWS_SECRET_ACCESS_KEY }}

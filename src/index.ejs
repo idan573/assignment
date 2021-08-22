@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0,  user-scalable=no"
+    />
+    <meta name="apple-itunes-app" content="<%= htmlWebpackPlugin.options.appleItunesApp %>" />
+    <meta name="google-play-app" content="<%= htmlWebpackPlugin.options.googlePlayStore %>">
+    <meta name="version" content="<%= htmlWebpackPlugin.options.version %>" />
+
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    
+    <script src="https://js.chargebee.com/v2/chargebee.js"></script>
+
+    <script>
+      if (<%= htmlWebpackPlugin.options.ENV %> !== 'development' ) {
+        !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on","addSourceMiddleware","addIntegrationMiddleware","setAnonymousId","addDestinationMiddleware"];analytics.factory=function(e){return function(){var t=Array.prototype.slice.call(arguments);t.unshift(e);analytics.push(t);return analytics}};for(var e=0;e<analytics.methods.length;e++){var key=analytics.methods[e];analytics[key]=analytics.factory(key)}analytics.load=function(key,e){var t=document.createElement("script");t.type="text/javascript";t.async=!0;t.src="https://cdn.segment.com/analytics.js/v1/" + key + "/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);analytics._loadOptions=e};analytics.SNIPPET_VERSION="4.13.1";
+        }}();
+      } 
+    </script>
+
+    <script type='text/javascript'>
+      function gonative_onesignal_info(info) {
+        window.onesignal_info = info;
+      }
+    </script>
+    
+    <!-- Customer IO -->
+    <script type="text/javascript">
+      if (<%= htmlWebpackPlugin.options.ENV %> === 'production' ) {
+        var _cio = _cio || [];
+        (function() {
+          var a,b,c;a=function(f){return function(){_cio.push([f].
+          concat(Array.prototype.slice.call(arguments,0)))}};b=["load","identify",
+          "sidentify","track","page"];for(c=0;c<b.length;c++){_cio[b[c]]=a(b[c])};
+          var t = document.createElement('script'),
+              s = document.getElementsByTagName('script')[0];
+          t.async = true;
+          t.id    = 'cio-tracker';
+          t.setAttribute('data-site-id', '37b6ea01c0a99e79b887');
+          t.src = 'https://assets.customer.io/assets/track.js';
+          s.parentNode.insertBefore(t, s);
+        })();
+      }
+    </script>
+  </head>
+
+  <body ontouchstart>
+    <noscript>
+      You need to enable JavaScript to visit our site.
+    </noscript>
+    
+    <section id="root"></section>
+    <section id="overlay"></section>
+    <section id="float-wrapper"></section>
+    <section id="error"></section>
+  </body>
+</html>

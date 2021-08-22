@@ -1,0 +1,56 @@
+import { GQLStylist } from 'App/api/stylist/types';
+
+export type GQLInputProduct = {
+  productId: string;
+  productType: string;
+  portal?: string;
+  parentId?: string;
+  productLink?: string;
+  color?: string;
+  descriptionLong?: string;
+  descriptionShort?: string;
+  images?: string[];
+  brand?: string;
+  retail?: string;
+  productName?: string;
+  currency?: string;
+  price?: number;
+  priceSale?: number;
+  priceShipping?: number;
+  size?: string;
+  cleanedSize?: string;
+};
+
+export type GQLProduct = Partial<{
+  portal: string;
+  parentId: string;
+  productId: string;
+  productLink: string;
+  productType: string;
+  inWishlist: boolean;
+  color: string;
+  descriptionLong: string;
+  descriptionShort: string;
+  images: string[];
+  brand: string;
+  retail: string;
+  productName: string;
+  currency: string;
+  price: number;
+  priceSale: number;
+  priceShipping: number;
+  size: string;
+  cleanedSize: string;
+  position: string;
+  productCategory: 'Basic' | 'Interest' | 'Completer' | 'Accessories';
+  title: string;
+  styleId: string;
+  stylist: GQLStylist;
+  score: number;
+  isRandom: boolean;
+  sessionId: string;
+  experienceId: string;
+  tags: string[];
+  sources: string[];
+  isUserItem: boolean;
+}>;

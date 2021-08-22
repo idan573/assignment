@@ -1,0 +1,40 @@
+name: Deploy ops
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: npm install, build, and test
+        run: |
+          rm -rf node_modules package-lock.json yarn.lock
+          npm install
+          npm run ops
+      - name: serverless deploy
+        uses: scalezio/github-action@python-nodejs-serverless
+        with:
+          args: deploy --stage dev --force
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.OPS_AWS_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.OPS_AWS_SECRET_ACCESS_KEY }}
+      - name: serverless s3 sync
+        uses: scalezio/github-action@python-nodejs-serverless
+        with:
+          args: sync --stage dev
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.OPS_AWS_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.OPS_AWS_SECRET_ACCESS_KEY }}

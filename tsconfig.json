@@ -1,0 +1,53 @@
+{
+  "compilerOptions": {
+    "rootDirs": ["src"],
+
+    "baseUrl": "./",
+    "sourceMap": true,
+
+    "target": "es5",
+    "lib": ["esnext", "es7", "dom"],
+    "jsx": "react",
+
+    "module": "esnext",
+    "moduleResolution": "node",
+
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "noImplicitAny": false,
+
+    "strict": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "strictNullChecks": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+
+    "paths": {
+      "root/*": ["./*"],
+      "src": ["src"],
+      "src/*": ["src/*"],
+      "assets": ["src/assets"],
+      "assets/*": ["src/assets/*"],
+      "core": ["src/core"],
+      "core/*": ["src/core/*"],
+      "features": ["src/features"],
+      "features/*": ["src/features/*"],
+      "services": ["src/services"],
+      "services/*": ["src/services/*"],
+      "globalstyles": ["src/globalstyles"],
+      "globalstyles/*": ["src/globalstyles/*"],
+      "OldFlow": ["src/OldFlow"],
+      "OldFlow/*": ["src/OldFlow/*"],
+      "FlowBuilder": ["src/FlowBuilder"],
+      "FlowBuilder/*": ["src/FlowBuilder/*"],
+      "App": ["src/App"],
+      "App/*": ["src/App/*"],
+      "Layouts": ["src/Layouts"],
+      "Layouts/*": ["src/Layouts/*"]
+    }
+  },
+  "exclude": ["node_modules"]
+}
